@@ -14,7 +14,7 @@ const client = new Client({
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity('Dota 2');
+  client.user.setActivity('0_0');
 
   const ping = new SlashCommandBuilder()
     .setName('ping')
@@ -26,7 +26,7 @@ client.on('ready', () => {
 client.on('messageCreate', (message) => {
   if (message.author.bot) return;
 
-  if (message.content === '!Позови иго') {
+  if (message.content === '!COOOM') {
     message.reply('@firebolt.');
   }
 });
@@ -49,7 +49,7 @@ client.on('messageCreate', async (message) => {
       return message.reply('You must be in a voice channel to use this command.');
     }
 
-    // Используем async/await для joinVoiceChannel
+    
     try {
       const connection = joinVoiceChannel({
         channelId: voiceChannel.id,
@@ -60,26 +60,26 @@ client.on('messageCreate', async (message) => {
       const url = args[1];
       const stream = ytdl(url, {
         quality: 'lowest',
-        filter: 'audioonly', // Загрузить только аудио
-        highWaterMark: 1 << 25, // Настроить размер буфера
+        filter: 'audioonly', 
+        highWaterMark: 1 << 25, 
       });
       
 
-      // Создаем аудиоресурс с потоком
+      
       const audioResource = createAudioResource(stream, {
         inputType: 'webm/opus',
-        inlineVolume: true, // Разрешаем управление громкостью
+        inlineVolume: true, 
       });
       
 
-      // Создаем аудиоплеер и подписываемся на событие окончания
+      
       const audioPlayer = createAudioPlayer();
       audioPlayer.play(audioResource);
       audioPlayer.on(VoiceConnectionStatus.Destroyed, () => {
         voiceChannel.leave();
       });
 
-      // Подключаем аудиоплеер к соединению
+      
       connection.subscribe(audioPlayer);
     } catch (error) {
       console.error(error);
